@@ -1,7 +1,9 @@
 package com.formation.velo;
 
 import com.formation.velo.controllers.UserController;
+import com.formation.velo.model.Station;
 import com.formation.velo.model.User;
+import com.formation.velo.service.StationService;
 import com.formation.velo.service.UserService;
 import org.hamcrest.Matchers;
 import org.junit.Before;
@@ -25,6 +27,7 @@ import java.util.Optional;
 import java.util.TimeZone;
 
 import static org.junit.Assert.*;
+import static org.reflections.util.ConfigurationBuilder.build;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -41,6 +44,9 @@ public class VeloApplicationTI {
 
     @Autowired
     private  UserService userService;
+
+    @Autowired
+    private StationService stationService;
 
 
     private MockMvc mockMvc;
@@ -80,17 +86,6 @@ public class VeloApplicationTI {
 
     }
 
-    @Test
-    public void getAllVeloAPI() throws Exception
-    {
-        mockMvc.perform( MockMvcRequestBuilders
-                        .get("/api/velos")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.nhits").exists())
-                .andExpect(jsonPath("$.nhits", Matchers.is(127)));
-    }
 
     @Test
     public void getAllUsersAPI() throws Exception
@@ -163,7 +158,7 @@ public class VeloApplicationTI {
     }
 
     @Test
-    public void getDeleteObjectUsersAPI() throws Exception
+    public void getDeleteObjectUsersAPI()
     {
         User user1 = User.builder().surname("Julie").name("Dupont").build();
         User user2 = User.builder().surname("Marie").name("Dalle").build();
@@ -176,7 +171,21 @@ public class VeloApplicationTI {
         assertEquals(4, people.size());
 
         userService.delete(user1);
-        assertEquals(3, people.size());
+        userService.delete(user2);
+        List<User> peopleAfterDelete = userService.findAll();
+        assertEquals(2, peopleAfterDelete.size());
+    }
+
+    @Test
+    public void save_get_station_return_station_success(){
+
+        Station station = Station.builder().recordId("id").name("test station").build();
+        stationService.save(station);
+
+        Optional<Station> optionalStation = stationService.findByRecordId("id");
+        assertNotNull(optionalStation);
+        assertEquals("test station", optionalStation.get().getName());
+
     }
 
 }
