@@ -11,15 +11,13 @@
 	<groupId>com.formation.velo</groupId>
 	<artifactId>velo</artifactId>
 
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>velos nantes</name>
 	<description>Velos nantes</description>
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>1.8</java.version>
 		<log4j2.version>2.17.0</log4j2.version>
-		<sonar.organization>khoulio</sonar.organization>
-		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 
 	<dependencies>
@@ -79,7 +77,6 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
-			<version>1.18.22</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
