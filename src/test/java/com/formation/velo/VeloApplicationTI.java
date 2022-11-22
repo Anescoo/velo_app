@@ -1,6 +1,6 @@
 package com.formation.velo;
 
-import com.formation.velo.controllers.UserController;
+
 import com.formation.velo.model.User;
 import com.formation.velo.service.UserService;
 import org.hamcrest.Matchers;
