@@ -99,5 +99,22 @@ public class UserController {
 			user.setId(id);
 			return "index";
 		}
-	} 
+
+		userService.save(user);
+		model.addAttribute("users", userService.findAll());
+		return "index";
+	}
+	@GetMapping("users/delete/{id}")
+	public String deleteUser(@PathVariable("id") Integer id, Model model) {
+		User user = userService.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+		userService.delete(user);
+		model.addAttribute("users", userService.findAll());
+		return "index";
+	}
+
+	@GetMapping("users/signup")
+	public String showSignUpForm(User user) {
+		return "add-user";
+	}
 }
